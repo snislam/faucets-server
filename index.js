@@ -10,9 +10,22 @@ const port = process.env.PORT || 4000;
 app.use(express.json())
 
 // connect with mongoose
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.7g5fvvn.mongodb.net/?retryWrites=true&w=majority`)
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.7g5fvvn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
     .then(() => {
-        app.use('/options', optionRouter)
+        app.post('/option', async (req, res) => {
+            const data = req.body
+            await data.save((err) => {
+                if (err) {
+                    res.send("Error")
+                } else {
+                    res.send("success")
+                }
+            })
+        })
+   
     })
     .catch((err) => {
         console.log(err)

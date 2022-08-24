@@ -2,7 +2,7 @@ const express = require('express');
 const { Option } = require('../models/options.model');
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/options', async (req, res) => {
     const newOption = new Option(req.body)
     await newOption.save((err) => {
         if (err) {
